@@ -1,5 +1,9 @@
 # UTTchain
 
+<p align="center">
+  <img src="images/banner.png" alt="UTTchain banner" width="100%" />
+</p>
+
 **UTTchain** is the Robinhood Chain protocol and infrastructure layer being developed for the **Unified Trading Terminal (UTT)** and **Unified Trading Terminal Token (UTTT)**.
 
 > **Status — September 2026:** FOUNDATION / DESIGN. No UTTchain protocol deployment is live, no UTTT migration is authorized, and no existing UTTT deployment has yet been designated as the sole canonical supply.
@@ -11,6 +15,37 @@ UTT is an existing local-first multi-venue trading terminal built with a React f
 UTTchain is **not** an attempt to run the entire UTT application inside smart contracts. Market-data aggregation, centralized-exchange APIs, relational accounting, FIFO/cost-basis logic, indexing, caching, background workers, and private user state remain off-chain. Robinhood Chain is intended to become the protocol layer for canonical identity, wallet-authorized execution, settlement, deployment identity, selected verifiable state, and UTTT infrastructure.
 
 Existing UTT repository: https://github.com/eyemaginative/utt-unified-trading-terminal
+
+## Visual identity
+
+The UTTchain visual system represents **many markets → one terminal → one protocol** through a shared network/routing motif. The banner, visual-identity composition, primary logo, and compact icon are maintained as canonical project artwork under `images/`.
+
+### Visual identity
+
+<p align="center">
+  <img src="images/visual_identity.png" alt="UTTchain visual identity" width="760" />
+</p>
+
+### Primary logo
+
+<p align="center">
+  <img src="images/logo.png" alt="UTTchain primary logo" width="420" />
+</p>
+
+### Protocol icon
+
+<p align="center">
+  <img src="images/icon.png" alt="UTTchain protocol icon" width="280" />
+</p>
+
+Canonical artwork files:
+
+```text
+images/banner.png
+images/visual_identity.png
+images/logo.png
+images/icon.png
+```
 
 ## Architecture
 
