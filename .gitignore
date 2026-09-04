@@ -1,0 +1,57 @@
+# Secrets / environment
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+*.jks
+
+# Foundry / Solidity
+cache/
+out/
+broadcast/
+forge-cache/
+
+# Node / frontend
+node_modules/
+dist/
+.vite/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Databases / local state
+*.db
+*.sqlite
+*.sqlite3
+*.db-wal
+*.db-shm
+
+# Logs / runtime
+*.log
+logs/
+tmp/
+temp/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Coverage / analysis
+coverage/
+.coverage
+htmlcov/
+
+# Deployment-local artifacts that may contain environment-specific material
+.envrc
+*.local
