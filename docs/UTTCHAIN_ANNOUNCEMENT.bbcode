@@ -1,0 +1,135 @@
+[center][size=200][b]UTTchain[/b][/size]
+[size=120]Unified Trading Terminal • Robinhood Chain Protocol Layer[/size][/center]
+
+[b]UTTchain[/b] is a new protocol and infrastructure project being developed for the [b]Unified Trading Terminal (UTT)[/b] and [b]Unified Trading Terminal Token (UTTT)[/b], built around Robinhood Chain.
+
+The goal is not to force an entire trading terminal into smart contracts. UTTchain is being designed as a hybrid system in which the web terminal, market-data services, accounting, exchange integrations, databases, and private user state remain off-chain where appropriate, while Robinhood Chain provides a verifiable protocol layer for wallet-authorized execution, canonical identity, settlement, deployment identity, selected state commitments, and UTTT infrastructure.
+
+[b]Current status[/b]
+
+UTTchain is in its [b]foundation / architecture stage[/b].
+
+[list]
+[*]No UTTchain protocol is live.
+[*]No UTTT migration is authorized.
+[*]No new Robinhood Chain UTTT deployment has been designated as the canonical supply.
+[*]No liquidity or market action is authorized by the project repository.
+[/list]
+
+[b]Relationship to Unified Trading Terminal[/b]
+
+UTT already exists as a local-first multi-venue trading terminal with a React frontend and FastAPI backend. UTTchain is intended to extend UTT toward a web-accessible and wallet-native architecture without discarding the capabilities that belong off-chain.
+
+[code]
+Unified Trading Terminal
+          |
+   +------+------+
+   |             |
+Application    Protocol
+ Layer          Layer
+   |             |
+React/FastAPI  UTTchain
+                 |
+          Robinhood Chain
+[/code]
+
+The existing terminal remains responsible for workloads such as CEX APIs, market aggregation, relational accounting, FIFO/cost-basis logic, indexing, caching, and private application state.
+
+UTTchain will focus on blockchain responsibilities that genuinely benefit from public verification.
+
+[b]UTTT and one canonical economic supply[/b]
+
+UTTT already exists in multiple ecosystems, including Robinhood Chain, Solana, the Polkadot ecosystem, and Counterparty.
+
+Those existing assets will not be casually discarded. Before a canonical supply model is selected, the project will reconcile each deployment or representation for:
+
+[list]
+[*]identifier/address
+[*]issuer or deployer
+[*]current and historical supply
+[*]burns
+[*]holder distribution
+[*]treasury balances
+[*]liquidity and market pairs
+[*]bridge or migration history
+[*]administrative authority
+[/list]
+
+The design objective is:
+
+[code]
+ONE UTTT
+ONE ECONOMIC SUPPLY
+MULTIPLE POSSIBLE EXECUTION DOMAINS
+[/code]
+
+The project will not simply add nominal supplies across chains together. Burned, bridged, escrowed, mirrored, or otherwise non-independent units must be identified so UTTT is not double counted.
+
+Possible future models include lock-and-mint representations, a canonical supply ledger spanning existing assets, deterministic migration, or a hybrid model that preserves economically meaningful legacy markets. No model has been selected yet.
+
+[b]Planned UTTchain components[/b]
+
+[list]
+[*][b]UTTT canonicalization[/b] — forensic review of existing UTTT deployments before any replacement or migration decision.
+[*][b]UTTchain Registry[/b] — compact on-chain authority for canonical deployment, chain, contract, and protocol-component identities.
+[*][b]Deployment manifests[/b] — machine-readable deployment evidence tied to source, compiler, chain, runtime identity, and verification state.
+[*][b]UTT integration adapter[/b] — a clean interface between the existing terminal and UTTchain contracts/manifests.
+[*][b]Wallet-native execution[/b] — browser-wallet authorization rather than hidden backend signing.
+[*][b]Future account abstraction[/b] — research into ERC-4337 smart accounts, session keys, batching, and bounded permissions after ordinary wallet execution is stable.
+[*][b]Future state commitments[/b] — cryptographic proofs or roots for selected application/accounting state without publicly exposing the underlying private records.
+[/list]
+
+[b]Security principles[/b]
+
+[list]
+[*]No private keys or seed phrases in GitHub.
+[*]No production exchange secrets in GitHub or frontend bundles.
+[*]No CEX API credentials on-chain.
+[*]No automatic blockchain signing by the backend.
+[*]No unlimited token approvals by default.
+[*]No ticker-only asset authority.
+[*]No silent mainnet broadcasts.
+[*]No undocumented privileged contract roles.
+[*]No production deployment from unreconciled source.
+[*]No UTTT holder migration before multi-chain supply and ownership reconciliation.
+[/list]
+
+[b]Development roadmap[/b]
+
+[code]
+Repository + security foundation
+        |
+Architecture / threat model
+        |
+Multi-chain UTTT forensic intake
+        |
+Canonical-supply design
+        |
+Contract specification / testing
+        |
+UTTchain Registry + manifests
+        |
+Robinhood Chain testnet
+        |
+UTT integration
+        |
+Web-service + multi-user security
+        |
+Wallet-native execution
+        |
+Production security review
+        |
+Explicit mainnet authorization
+[/code]
+
+A deployed contract is not automatically an activated protocol, and a website being online does not automatically authorize production trading.
+
+[b]Repository[/b]
+
+https://github.com/eyemaginative/UTTchain
+
+[b]Existing UTT repository[/b]
+
+https://github.com/eyemaginative/utt-unified-trading-terminal
+
+UTTchain is experimental software under active development. Documentation describes architecture and development intent, not a promise of future functionality or a claim that a protocol, token migration, market, or trading service is live. Nothing published for the project should be interpreted as investment, tax, or legal advice.
