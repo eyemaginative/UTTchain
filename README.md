@@ -6,7 +6,7 @@
 
 **UTTchain** is the Robinhood Chain protocol and infrastructure layer being developed for the **Unified Trading Terminal (UTT)** and **Unified Trading Terminal Token (UTTT)**.
 
-> **Status â€” September 2026:** FOUNDATION / DESIGN. No UTTchain protocol deployment is live, no UTTT migration is authorized, and no existing UTTT deployment has yet been designated as the sole canonical supply.
+> **Status — September 2026:** FOUNDATION / DESIGN. No UTTchain protocol deployment is live, no UTTT migration is authorized, and no existing UTTT deployment has yet been designated as the sole canonical supply.
 
 ## Overview
 
@@ -27,7 +27,7 @@ The architecture therefore follows this priority order:
 3. **Replaceable public infrastructure** such as RPC providers, on-chain or cryptographically verified oracle inputs, and indexers where chain access or market-data delivery requires them.
 4. **Optional hosted/serverless services** where technically necessary or where they provide post-launch enhancements without becoming a required protocol dependency.
 
-For functions that cannot be performed safely or technically on-chainâ€”especially authenticated CEX operationsâ€”the project may keep them in the existing UTT application or later design an optional secure web-accessible service boundary. A mandatory local UTTchain companion process is not an accepted production architecture.
+For functions that cannot be performed safely or technically on-chain—especially authenticated CEX operations—the project may keep them in the existing UTT application or later design an optional secure web-accessible service boundary. A mandatory local UTTchain companion process is not an accepted production architecture.
 
 ### Extensibility and upgradeability
 
@@ -46,7 +46,7 @@ Existing UTT repository: https://github.com/eyemaginative/utt-unified-trading-te
 
 ## Visual identity
 
-The UTTchain visual system represents **many markets â†’ one terminal â†’ one protocol** through a shared network/routing motif. The banner, visual-identity composition, primary logo, and compact icon are maintained as canonical project artwork under `images/`.
+The UTTchain visual system represents **many markets → one terminal → one protocol** through a shared network/routing motif. The banner, visual-identity composition, primary logo, and compact icon are maintained as canonical project artwork under `images/`.
 
 ### Visual identity
 
@@ -286,43 +286,43 @@ Local development tooling is used to build and test UTTchain; it is **not** a pr
 ## Roadmap
 
 ### Foundation
-- **UTTC.INIT** â€” repository, security baseline, README, public project announcement, Foundry bootstrap.
-- **UTTC.0** â€” architecture, application/protocol boundary, server-independent launch invariant, optional post-launch service boundary, trust boundaries, privacy model, threat model, and upgradeability policy.
+- **UTTC.INIT** — repository, security baseline, README, public project announcement, Foundry bootstrap.
+- **UTTC.0** — architecture, application/protocol boundary, server-independent launch invariant, optional post-launch service boundary, trust boundaries, privacy model, threat model, and upgradeability policy.
 
 ### UTTT canonicalization
-- **UTTC.1** â€” forensic/supply intake for Robinhood Chain, Solana, Polkadot, and Counterparty UTTT.
-- **UTTC.2** â€” one-canonical-supply and migration architecture.
-- **UTTC.3** â€” canonical UTTT specification.
-- **UTTC.4** â€” implementation and security testing if a replacement/new canonical contract is required.
+- **UTTC.1** — forensic/supply intake for Robinhood Chain, Solana, Polkadot, and Counterparty UTTT.
+- **UTTC.2** — one-canonical-supply and migration architecture.
+- **UTTC.3** — canonical UTTT specification.
+- **UTTC.4** — implementation and security testing if a replacement/new canonical contract is required.
 
 ### Protocol foundation
-- **UTTC.5** â€” UTTchain Registry and versioned capability/module identity.
-- **UTTC.6** â€” deployment-manifest standard, including upgrade authority where applicable.
-- **UTTC.7** â€” Robinhood Chain testnet deployments and reconciliation.
-- **UTTC.8** â€” UTT â†” UTTchain integration adapter.
+- **UTTC.5** — UTTchain Registry and versioned capability/module identity.
+- **UTTC.6** — deployment-manifest standard, including upgrade authority where applicable.
+- **UTTC.7** — Robinhood Chain testnet deployments and reconciliation.
+- **UTTC.8** — UTT ↔ UTTchain integration adapter.
 
 ### Web architecture
-- **UTTC.9** â€” browser-native/server-independent launch architecture.
-- **UTTC.10** â€” optional post-launch hosted/serverless service layer.
-- **UTTC.11** â€” authorization and isolation for optional hosted state/services.
-- **UTTC.12** â€” CEX application/service boundary; no mandatory local UTTchain agent.
-- **UTTC.13** â€” wallet-native authentication.
-- **UTTC.14** â€” browser-wallet Robinhood Chain execution from the web terminal.
-- **UTTC.15** â€” replaceable RPC/indexing/oracle infrastructure and direct on-chain reads where practical.
+- **UTTC.9** — browser-native/server-independent launch architecture.
+- **UTTC.10** — optional post-launch hosted/serverless service layer.
+- **UTTC.11** — authorization and isolation for optional hosted state/services.
+- **UTTC.12** — CEX application/service boundary; no mandatory local UTTchain agent.
+- **UTTC.13** — wallet-native authentication.
+- **UTTC.14** — browser-wallet Robinhood Chain execution from the web terminal.
+- **UTTC.15** — replaceable RPC/indexing/oracle infrastructure and direct on-chain reads where practical.
 
 ### Advanced protocol work
-- **UTTC.16** â€” cryptographic accounting/state commitments.
-- **UTTC.17** â€” ERC-4337/account abstraction.
-- **UTTC.18** â€” evidence-driven UTTT utility design.
-- **UTTC.19** â€” governance and bounded upgrade authority if justified.
+- **UTTC.16** — cryptographic accounting/state commitments.
+- **UTTC.17** — ERC-4337/account abstraction.
+- **UTTC.18** — evidence-driven UTTT utility design.
+- **UTTC.19** — governance and bounded upgrade authority if justified.
 
 ### Production
-- **UTTC.20** â€” production security review, including upgrade/service boundaries.
-- **UTTC.21** â€” mainnet deployment preflight.
-- **UTTC.22** â€” explicitly authorized mainnet protocol deployment.
-- **UTTC.23** â€” production browser/web deployment with server-independent core operation.
-- **UTTC.24** â€” end-to-end production acceptance.
-- **UTTC.25** â€” post-launch operations, optional service expansion, upgrades/migrations, and release/security management.
+- **UTTC.20** — production security review, including upgrade/service boundaries.
+- **UTTC.21** — mainnet deployment preflight.
+- **UTTC.22** — explicitly authorized mainnet protocol deployment.
+- **UTTC.23** — production browser/web deployment with server-independent core operation.
+- **UTTC.24** — end-to-end production acceptance.
+- **UTTC.25** — post-launch operations, optional service expansion, upgrades/migrations, and release/security management.
 
 ## Target repository structure
 
