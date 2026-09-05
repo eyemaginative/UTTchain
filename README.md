@@ -14,18 +14,33 @@ UTT is an existing local-first multi-venue trading terminal built with a React f
 
 UTTchain is **not** an attempt to run an entire trading terminal inside smart contracts. Smart contracts cannot directly run a browser UI, retain private centralized-exchange credentials, or make arbitrary authenticated HTTP requests to external exchanges. Those technical boundaries are treated explicitly rather than hidden behind a claim that every workload is on-chain.
 
-### No-local-companion rule
+### Server-independent launch rule
 
-**UTTchain production use must not require a second always-on local server, daemon, or companion machine.** Existing local UTT may remain available as an independent application and integration surface, but UTTchain's web/onchain functionality must not depend on the user starting another local service.
+**UTTchain production launch and core protocol use must not require a second always-on local server, daemon, companion machine, or project-operated application server.** Existing local UTT may remain available as an independent application and integration surface, but UTTchain's core web/onchain functionality must remain usable through the browser, wallet, and Robinhood Chain without a mandatory companion runtime.
+
+This launch rule does **not** prohibit adding optional hosted infrastructure later. After launch, UTTchain may add server/serverless services for performance, indexing, private application state, richer integrations, CEX connectivity, or other capabilities that cannot reasonably live in the EVM or browser. Those services must be additive: failure, withdrawal, or replacement of an optional server must not invalidate canonical on-chain state or remove the ability to use core protocol functions that were designed to operate without it.
 
 The architecture therefore follows this priority order:
 
 1. **Robinhood Chain smart contracts and chain state** for deterministic protocol logic, identity, authorization, settlement, and state that benefits from public verification.
 2. **Browser-side execution** for UI, wallet interaction, transaction construction, local ephemeral computation, and other work that can safely remain client-side.
 3. **Replaceable public infrastructure** such as RPC providers, on-chain or cryptographically verified oracle inputs, and indexers where chain access or market-data delivery requires them.
-4. **Hosted/serverless off-chain services only where technically unavoidable**, designed so they are not a user-operated local dependency and do not become hidden signing authorities.
+4. **Optional hosted/serverless services** where technically necessary or where they provide post-launch enhancements without becoming a required protocol dependency.
 
-For functions that cannot be performed safely or technically on-chain—especially authenticated CEX operations—the project will either keep them in the existing UTT application or design a secure web-accessible boundary later. A mandatory local UTTchain companion process is not an accepted production architecture.
+For functions that cannot be performed safely or technically on-chain—especially authenticated CEX operations—the project may keep them in the existing UTT application or later design an optional secure web-accessible service boundary. A mandatory local UTTchain companion process is not an accepted production architecture.
+
+### Extensibility and upgradeability
+
+UTTchain should remain capable of evolving after launch, including the later addition of optional server-backed capabilities. That does **not** imply that every smart contract should be deployed behind an upgradeable proxy.
+
+The preferred order is:
+
+1. add new browser/server capabilities without changing canonical contracts when possible;
+2. add new versioned or modular contracts and register their capabilities when protocol evolution requires on-chain code;
+3. migrate or version components explicitly where immutable contracts can be superseded safely;
+4. use proxy-based contract upgradeability only for components whose specification demonstrates a real need for it.
+
+Any contract-level upgrade authority must be explicit, bounded, documented, testable, and separately accepted. Upgradeable components require storage-layout review, upgrade-path tests, authority/timelock analysis, deployment reconciliation, and a clear migration or recovery model. Critical token/supply authority should not become upgradeable merely to preserve architectural flexibility.
 
 Existing UTT repository: https://github.com/eyemaginative/utt-unified-trading-terminal
 
@@ -81,16 +96,17 @@ images/icon.png
                UTTT       Registry      Protocol
                                        Contracts
 
-* Only where technically unavoidable; never a required user-run local daemon.
+* Optional extension layer; never a required user-run local daemon or
+  required launch dependency for core on-chain protocol use.
 ```
 
-The long-term boundary is intentionally **onchain-first and no-local-companion**:
+The long-term boundary is intentionally **onchain-first, server-independent at launch, and extensible after launch**:
 
-- **Web client:** browser-delivered React/Vite terminal. It must not require a localhost backend merely to use UTTchain's onchain features.
+- **Web client:** browser-delivered React/Vite terminal. It must not require a localhost backend merely to use UTTchain's core onchain features.
 - **Wallet boundary:** browser wallet or future smart account authorizes blockchain transactions. UTTchain infrastructure does not silently become the user's signer.
 - **Protocol boundary:** Robinhood Chain contracts carry protocol logic and state wherever EVM execution is technically suitable and economically reasonable.
 - **Data boundary:** prefer on-chain state and cryptographically verifiable oracle inputs. RPC/indexer services are replaceable infrastructure rather than protocol authority.
-- **Off-chain boundary:** hosted/serverless services may exist only for workloads that cannot reasonably execute in the EVM or browser. They must not impose a second user-operated local runtime.
+- **Optional service boundary:** hosted/serverless services may be added later for workloads or enhancements that do not belong in the EVM/browser, but core protocol state and authority must not silently migrate into those services.
 - **CEX boundary:** CEX credentials remain off-chain. Smart contracts cannot directly authenticate to centralized-exchange HTTP APIs. CEX support therefore remains an application-layer capability and must not force UTTchain core users to run a local companion daemon.
 - **Existing UTT:** local UTT can remain a supported integration client, but it is not a required runtime dependency for UTTchain's web/onchain protocol functions.
 
@@ -145,7 +161,7 @@ Some UTT workloads cannot be implemented solely as an EVM contract without chang
 - unrestricted high-frequency market-data ingestion;
 - general-purpose background computation that would be prohibitively expensive or impossible in the EVM.
 
-Where such capabilities remain necessary, UTTchain will prefer browser execution, cryptographically verifiable data delivery, and replaceable hosted/serverless infrastructure. **Off-chain does not mean user-operated localhost.**
+Where such capabilities remain necessary, UTTchain will prefer browser execution, cryptographically verifiable data delivery, replaceable public infrastructure, and optional hosted/serverless extensions. **Off-chain does not mean user-operated localhost, and optional hosting does not become canonical protocol authority by default.**
 
 Private financial records should remain private unless a later protocol feature explicitly requires a privacy-preserving proof or commitment.
 
@@ -182,15 +198,19 @@ A reviewed existing deployment or a locally built canonical implementation, depe
 
 ### UTTchain Registry
 
-A compact on-chain registry for identities that genuinely benefit from public authority, including canonical UTTchain component deployments, UTTT deployment identity, chain/contract identities, protocol versions, and capability declarations.
+A compact on-chain registry for identities that genuinely benefit from public authority, including canonical UTTchain component deployments, UTTT deployment identity, chain/contract identities, protocol versions, and capability declarations. Versioned registry/capability design is also the preferred mechanism for adding or superseding optional protocol modules without forcing blanket upgradeability across all contracts.
 
 ### Deployment manifests
 
-Production-relevant deployments should produce machine-readable evidence including chain ID, address, deployment transaction, block, runtime identity/hash, compiler configuration, source commit, constructor arguments, and verification state.
+Production-relevant deployments should produce machine-readable evidence including chain ID, address, deployment transaction, block, runtime identity/hash, compiler configuration, source commit, constructor arguments, verification state, and any upgrade authority where applicable.
 
 ### Browser-native protocol client
 
 The primary UTTchain web client is intended to interact directly with Robinhood Chain through standard EVM wallet and RPC interfaces wherever feasible. It must not require a companion localhost server for core protocol use.
+
+### Optional post-launch service layer
+
+After launch, optional hosted/serverless services may be added for indexing, performance, private application state, integrations, CEX connectivity, notifications, or other features. Such services are extensions, not prerequisites for canonical protocol operation, unless a future separately accepted protocol version explicitly changes that boundary.
 
 ### Future account layer
 
@@ -209,17 +229,20 @@ Standing security invariants:
 - **No CEX API credentials on-chain.**
 - **No automatic blockchain signing by hosted UTTchain infrastructure.**
 - **No mandatory user-operated local UTTchain server, daemon, or companion machine.**
+- **No mandatory project-operated server dependency for launch/core protocol use.**
+- **Optional post-launch services must remain explicitly scoped and replaceable.**
 - **No unlimited token approvals by default.**
 - **No ticker/symbol-only asset authority.** Chain and contract identity matter.
 - **No silent mainnet broadcasts.**
 - **No automatic financial retry after transaction authority becomes uncertain.**
 - **No undocumented privileged contract roles.**
 - **No unreviewed proxy or upgrade authority.**
+- **No blanket proxy requirement: upgradeability must be justified per component.**
 - **No public disclosure of private user financial records merely to make them on-chain.**
 - **No production deployment from uncommitted or unreconciled source.**
 - **No UTTT holder migration before supply and ownership reconciliation.**
 
-Production security review will cover smart-contract behavior as well as browser security, wallet authorization, any unavoidable hosted-service boundaries, RPC/provider trust, oracle trust, privacy, and transaction reconciliation.
+Production security review will cover smart-contract behavior as well as browser security, wallet authorization, optional hosted-service boundaries, RPC/provider trust, oracle trust, upgrade authority, privacy, and transaction reconciliation.
 
 ## Development-state vocabulary
 
@@ -234,7 +257,7 @@ ACTIVATED
 PRODUCTION ACCEPTED
 ```
 
-A deployed contract does not by itself mean UTTchain is launched. A website being online does not by itself authorize production trading.
+A deployed contract does not by itself mean UTTchain is launched. A website or optional server being online does not by itself authorize production trading or change canonical protocol authority.
 
 ## Development lifecycle
 
@@ -264,7 +287,7 @@ Local development tooling is used to build and test UTTchain; it is **not** a pr
 
 ### Foundation
 - **UTTC.INIT** — repository, security baseline, README, public project announcement, Foundry bootstrap.
-- **UTTC.0** — architecture, application/protocol boundary, no-local-companion invariant, trust boundaries, privacy model, threat model.
+- **UTTC.0** — architecture, application/protocol boundary, server-independent launch invariant, optional post-launch service boundary, trust boundaries, privacy model, threat model, and upgradeability policy.
 
 ### UTTT canonicalization
 - **UTTC.1** — forensic/supply intake for Robinhood Chain, Solana, Polkadot, and Counterparty UTTT.
@@ -273,16 +296,16 @@ Local development tooling is used to build and test UTTchain; it is **not** a pr
 - **UTTC.4** — implementation and security testing if a replacement/new canonical contract is required.
 
 ### Protocol foundation
-- **UTTC.5** — UTTchain Registry.
-- **UTTC.6** — deployment-manifest standard.
+- **UTTC.5** — UTTchain Registry and versioned capability/module identity.
+- **UTTC.6** — deployment-manifest standard, including upgrade authority where applicable.
 - **UTTC.7** — Robinhood Chain testnet deployments and reconciliation.
 - **UTTC.8** — UTT ↔ UTTchain integration adapter.
 
 ### Web architecture
-- **UTTC.9** — browser-native/no-local-runtime web architecture.
-- **UTTC.10** — off-chain persistence only where technically unavoidable; hosted/serverless rather than user-local.
-- **UTTC.11** — authorization and isolation for any unavoidable hosted state.
-- **UTTC.12** — CEX web/application boundary; no mandatory local UTTchain agent.
+- **UTTC.9** — browser-native/server-independent launch architecture.
+- **UTTC.10** — optional post-launch hosted/serverless service layer.
+- **UTTC.11** — authorization and isolation for optional hosted state/services.
+- **UTTC.12** — CEX application/service boundary; no mandatory local UTTchain agent.
 - **UTTC.13** — wallet-native authentication.
 - **UTTC.14** — browser-wallet Robinhood Chain execution from the web terminal.
 - **UTTC.15** — replaceable RPC/indexing/oracle infrastructure and direct on-chain reads where practical.
@@ -291,15 +314,15 @@ Local development tooling is used to build and test UTTchain; it is **not** a pr
 - **UTTC.16** — cryptographic accounting/state commitments.
 - **UTTC.17** — ERC-4337/account abstraction.
 - **UTTC.18** — evidence-driven UTTT utility design.
-- **UTTC.19** — governance architecture if justified.
+- **UTTC.19** — governance and bounded upgrade authority if justified.
 
 ### Production
-- **UTTC.20** — production security review.
+- **UTTC.20** — production security review, including upgrade/service boundaries.
 - **UTTC.21** — mainnet deployment preflight.
 - **UTTC.22** — explicitly authorized mainnet protocol deployment.
-- **UTTC.23** — production web deployment with no mandatory local companion runtime.
+- **UTTC.23** — production browser/web deployment with server-independent core operation.
 - **UTTC.24** — end-to-end production acceptance.
-- **UTTC.25** — post-launch operations and release/security management.
+- **UTTC.25** — post-launch operations, optional service expansion, upgrades/migrations, and release/security management.
 
 ## Target repository structure
 
@@ -325,7 +348,9 @@ The structure above is a target, not a claim that every component already exists
 As of this foundation stage:
 
 - UTTchain's Foundry project skeleton is established;
-- the no-local-companion production rule is part of the architecture baseline;
+- server-independent core operation at launch is part of the architecture baseline;
+- optional post-launch hosted services are permitted as non-core extensions;
+- contract upgradeability remains a component-by-component design decision rather than a blanket requirement;
 - no UTTchain protocol contract is live;
 - no UTTT migration is authorized;
 - no existing UTTT deployment has been declared the sole canonical supply;
