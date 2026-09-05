@@ -7,9 +7,9 @@
 
 The project is being designed [b]onchain-first[/b]. Robinhood Chain should carry deterministic protocol logic, identity, authorization, settlement, and publicly verifiable state wherever EVM execution is technically suitable and economically reasonable.
 
-[b]No-local-companion rule[/b]
+[b]Server-independent launch, optional services later[/b]
 
-UTTchain production use must [b]not[/b] require users to run a second always-on local server, daemon, or companion machine.
+UTTchain production launch and core protocol use must [b]not[/b] require users to run a second always-on local server, daemon, companion machine, or project-operated application server.
 
 The architecture priority is:
 
@@ -17,12 +17,29 @@ The architecture priority is:
 [*][b]Robinhood Chain smart contracts and chain state[/b]
 [*][b]Browser-side execution and wallet interaction[/b]
 [*][b]Replaceable RPC, oracle, and indexer infrastructure[/b]
-[*][b]Hosted/serverless services only where technically unavoidable[/b]
+[*][b]Optional hosted/serverless services where useful or technically necessary[/b]
 [/list]
+
+The server-independent launch rule does not prohibit adding a server later. Post-launch hosted services may provide indexing, performance, private application state, notifications, CEX connectivity, richer integrations, or other extensions. They should remain additive and replaceable rather than silently becoming the authority for canonical on-chain state or a mandatory dependency for core protocol functions.
 
 Existing local UTT may remain an independent application and integration surface, but it will not be a required runtime dependency for UTTchain's web/onchain protocol functions.
 
-Smart contracts cannot directly run a browser interface, securely retain centralized-exchange API secrets, or make arbitrary authenticated HTTP requests to external exchanges. Where a workload cannot safely or technically execute inside the EVM, UTTchain will prefer browser execution, cryptographically verifiable data delivery, or replaceable hosted/serverless infrastructure rather than requiring localhost software from the user.
+[b]Extensibility and smart-contract upgradeability[/b]
+
+Future server-backed features do not require every launch contract to be proxy-upgradeable.
+
+UTTchain will prefer:
+
+[list=1]
+[*]new browser/server capabilities that do not alter canonical contracts;
+[*]new versioned or modular contracts when on-chain functionality must evolve;
+[*]explicit migration/supersession where immutable contracts can be replaced safely;
+[*]proxy-based upgrades only where a specific component demonstrates a real requirement.
+[/list]
+
+Any contract upgrade authority must be explicit, bounded, reviewed, and tested. Upgradeable components require storage-layout review, authority/timelock analysis, upgrade-path tests, deployment reconciliation, and documented recovery/migration behavior. Critical token or supply authority will not become upgradeable merely for convenience.
+
+Smart contracts cannot directly run a browser interface, securely retain centralized-exchange API secrets, or make arbitrary authenticated HTTP requests to external exchanges. Where a workload cannot safely or technically execute inside the EVM, UTTchain will prefer browser execution, cryptographically verifiable data delivery, replaceable public infrastructure, or optional hosted/serverless extensions rather than requiring localhost software from the user.
 
 [b]Visual identity[/b]
 
@@ -46,7 +63,9 @@ UTTchain is in its [b]foundation / architecture stage[/b].
 
 [list]
 [*]The Foundry project skeleton is established.
-[*]The no-local-companion production rule is now part of the architecture baseline.
+[*]Server-independent core operation at launch is now part of the architecture baseline.
+[*]Optional post-launch hosted services are permitted as additive extensions.
+[*]Smart-contract upgradeability is a component-by-component design decision, not a blanket proxy requirement.
 [*]No UTTchain protocol contract is live.
 [*]No UTTT migration is authorized.
 [*]No new Robinhood Chain UTTT deployment has been designated as the canonical supply.
@@ -105,9 +124,10 @@ Possible future models include lock-and-mint representations, a canonical supply
 
 [list]
 [*][b]UTTT canonicalization[/b] — forensic review of existing UTTT deployments before any replacement or migration decision.
-[*][b]UTTchain Registry[/b] — compact on-chain authority for canonical deployment, chain, contract, and protocol-component identities.
-[*][b]Deployment manifests[/b] — machine-readable deployment evidence tied to source, compiler, chain, runtime identity, and verification state.
+[*][b]UTTchain Registry[/b] — compact on-chain authority for canonical deployment, chain, contract, protocol-component, version, and capability identities.
+[*][b]Deployment manifests[/b] — machine-readable deployment evidence tied to source, compiler, chain, runtime identity, verification state, and any upgrade authority.
 [*][b]Browser-native protocol client[/b] — direct wallet/RPC interaction for core onchain use without a required local server.
+[*][b]Optional post-launch service layer[/b] — hosted/serverless extensions that enhance rather than replace canonical protocol operation.
 [*][b]UTT integration adapter[/b] — a clean interface between the existing terminal and UTTchain contracts/manifests.
 [*][b]Wallet-native execution[/b] — browser-wallet authorization rather than hidden backend signing.
 [*][b]Future account abstraction[/b] — research into ERC-4337 smart accounts, session keys, batching, and bounded permissions after ordinary wallet execution is stable.
@@ -122,6 +142,9 @@ Possible future models include lock-and-mint representations, a canonical supply
 [*]No CEX API credentials on-chain.
 [*]No automatic blockchain signing by hosted UTTchain infrastructure.
 [*]No mandatory user-operated local UTTchain server, daemon, or companion machine.
+[*]No mandatory project-operated server dependency for launch/core protocol use.
+[*]Optional post-launch services must remain explicitly scoped and replaceable.
+[*]No blanket proxy requirement; contract upgradeability must be justified per component.
 [*]No unlimited token approvals by default.
 [*]No ticker-only asset authority.
 [*]No silent mainnet broadcasts.
@@ -137,7 +160,9 @@ Repository + security foundation
         |
 Architecture / threat model
         |
-No-local-companion web/onchain boundary
+Server-independent launch boundary
+        |
+Optional service + upgradeability policy
         |
 Multi-chain UTTT forensic intake
         |
@@ -151,14 +176,14 @@ Robinhood Chain testnet
         |
 Browser-native wallet execution
         |
-UTT integration
+Optional post-launch service expansion
         |
 Production security review
         |
 Explicit mainnet authorization
 [/code]
 
-A deployed contract is not automatically an activated protocol, and a website being online does not automatically authorize production trading.
+A deployed contract is not automatically an activated protocol, and a website or optional server being online does not automatically authorize production trading or change canonical protocol authority.
 
 [b]Repository[/b]
 
