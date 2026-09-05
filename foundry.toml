@@ -1,0 +1,17 @@
+[profile.default]
+src = "src"
+test = "test"
+script = "script"
+out = "out"
+libs = ["lib"]
+cache_path = "cache"
+
+optimizer = true
+optimizer_runs = 200
+
+# UTTchain does not permit FFI by default.
+ffi = false
+
+# Solidity compiler pinning is intentionally deferred until the first
+# accepted contract specification. Production contract work must freeze
+# the compiler and dependency graph before implementation acceptance.
