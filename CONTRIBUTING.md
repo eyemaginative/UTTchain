@@ -42,3 +42,6 @@ Mainnet deployment and financial actions require separate explicit authorization
 ## UTTT canonical supply
 
 UTTT currently has known economic surfaces on Robinhood Chain, Solana, the Polkadot ecosystem, and Counterparty. Do not introduce a canonical-supply or migration assumption until the multi-chain forensic and holder-state reconciliation phases are accepted.
+## License
+
+Unless explicitly stated otherwise, contributions accepted into UTTchain are distributed under the repository's MIT License. See `LICENSE`.
